@@ -13,16 +13,23 @@ async function sendMessage(){
     //lisätään viesti chatboxiin
     addMessageToChatbox(userInput);
 
-    //Tähän tulee POST-rajapinnan pyyntö! Tästä jatketaan
-  const response = await fetch('/get-question',{
-        method:'POST',
-        headers:{
-            'Content-Type':'application/json'
-        },
-        body: JSON.stringify({question: userInput})
-    });
-    const data = await response.json();
-    console.log(data);
+    
+    try{
+        //Tähän tulee POST-rajapinnan pyyntö! Tästä jatketaan
+      const response = await fetch('/get-question',{
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body: JSON.stringify({question: userInput})
+        });
+        const data = await response.json();
+        console.log(data);
+
+    }catch(error){
+        console.error('Error:', error);
+        addMessageToChatbox('Jotain meni pieleen. Yritä uudelleen myöhemmin.');
+    }
 
     //tyhjennetää tekstikenttä
     document.getElementById('user-input').value = '';
