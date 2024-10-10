@@ -16,7 +16,7 @@ async function sendMessage(){
     
     try{
         //Tähän tulee POST-rajapinnan pyyntö! Tästä jatketaan
-      const response = await fetch('/get-question',{
+      const response = await fetch('/chat',{
             method:'POST',
             headers:{
                 'Content-Type':'application/json'
