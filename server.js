@@ -30,9 +30,12 @@ app.post('/chat', async (req,res) =>{
             })
         });
         const data = await response.json();
-        console.log(data);
+        console.log(data.choices[0].message.content);
+        const reply = data.choices[0].message.content;
+        res.json({reply});
+        
     }catch(error){
-
+        console.error('Virheviesti:',error.message);
     }
     
     // if(question){
