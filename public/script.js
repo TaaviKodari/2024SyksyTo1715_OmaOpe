@@ -11,9 +11,8 @@ async function sendMessage(){
     if(userInput.trim() === '') return;
     console.log(userInput);
     //lisätään viesti chatboxiin
-    addMessageToChatbox(userInput);
-
-    
+    addMessageToChatbox('Sinä: ' + userInput);
+ 
     try{
         //Tähän tulee POST-rajapinnan pyyntö! Tästä jatketaan
       const response = await fetch('/chat',{
@@ -24,7 +23,8 @@ async function sendMessage(){
             body: JSON.stringify({question: userInput})
         });
         const data = await response.json();
-        console.log(data);
+        console.log(data.reply);
+        addMessageToChatbox('ChatGPT: ' + data.reply);
 
     }catch(error){
         console.error('Error:', error);
