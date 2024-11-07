@@ -22,3 +22,28 @@ body{
 }
 
 
+.input-container{
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.user-input{
+    padding: 10px;
+    border: none;
+    border-right: 1px solid #ddd;
+    width: 100%;
+    overflow: auto;
+}
+
+.message{
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+.user-message{
+    font-weight: bold;
+}
+
+.bot-message{
+    font-weight: normal;
+}

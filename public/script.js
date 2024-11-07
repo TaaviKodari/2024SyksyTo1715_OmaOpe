@@ -11,7 +11,7 @@ async function sendMessage(){
     if(userInput.trim() === '') return;
     console.log(userInput);
     //lisätään viesti chatboxiin
-    addMessageToChatbox('Sinä: ' + userInput);
+    addMessageToChatbox('Sinä: ' + userInput, 'user-message');
  
     try{
         //Tähän tulee POST-rajapinnan pyyntö! Tästä jatketaan
@@ -24,19 +24,20 @@ async function sendMessage(){
         });
         const data = await response.json();
         console.log(data.reply);
-        addMessageToChatbox('ChatGPT: ' + data.reply);
+        addMessageToChatbox('ChatGPT: ' + data.reply,'bot-message');
 
     }catch(error){
         console.error('Error:', error);
-        addMessageToChatbox('Jotain meni pieleen. Yritä uudelleen myöhemmin.');
+        addMessageToChatbox('Jotain meni pieleen. Yritä uudelleen myöhemmin.', 'bot-message');
     }
 
     //tyhjennetää tekstikenttä
     document.getElementById('user-input').value = '';
 }
 
-function addMessageToChatbox(message){
+function addMessageToChatbox(message,className){
     const messageElement = document.createElement('div');
+    messageElement.classList.add('message', className);
     messageElement.textContent = message;
     document.getElementById('chatbox').appendChild(messageElement);
     console.log(messageElement);
