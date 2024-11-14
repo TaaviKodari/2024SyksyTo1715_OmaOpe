@@ -1,9 +1,37 @@
 document.getElementById('send-button').addEventListener('click',sendMessage);
+document.getElementById('send-images-button').addEventListener('click', sendImages);
 document.getElementById('user-input').addEventListener('keypress',function(e){
     if(e.key === 'Enter'){
         sendMessage();
     }
 });
+
+function sendImages(){
+    //console.log("Kuvia lähetetty");
+    const imageInput = document.getElementById('image-input');
+    const files = imageInput.files;
+    
+    if(files.length === 0){
+        alert('Valitse kuvia ensin.');
+        return;
+    }
+    
+    const formData = new FormData();
+
+    for(let i = 0; i< files.length; i++){
+        formData.append('images',files[i]);
+    }
+
+    console.log(formData);
+
+    try{
+        //luodaan rajapinta kutsu
+    }catch(error){
+        console.log('Error:',error);
+    }
+
+}
+
 async function sendMessage(){
     //luetaan käyttäjän antama teksti ja tallennetaan muuttujaan
     const userInput = document.getElementById('user-input').value;
