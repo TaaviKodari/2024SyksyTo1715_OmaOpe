@@ -1,14 +1,22 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
+import multer from 'multer';
 
 dotenv.config();
 
 const app = express();
 const port = 3000;
 
+const upload = multer({dest:'uploads/'})
+
 app.use(bodyParser.json());
 app.use(express.static('public'));
+
+app.post('/upload-Images',upload.array('images',10), async(req,res)=>{
+    const files = req.files;
+    console.log(files);
+});
 
 app.post('/chat', async (req,res) =>{
     const question = req.body.question;

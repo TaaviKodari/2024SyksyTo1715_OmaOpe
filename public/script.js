@@ -6,7 +6,7 @@ document.getElementById('user-input').addEventListener('keypress',function(e){
     }
 });
 
-function sendImages(){
+ async function sendImages(){
     //console.log("Kuvia lähetetty");
     const imageInput = document.getElementById('image-input');
     const files = imageInput.files;
@@ -26,6 +26,10 @@ function sendImages(){
 
     try{
         //luodaan rajapinta kutsu
+        const response = await fetch('/upload-Images',{
+            method:'POST',
+            body:formData
+        });
     }catch(error){
         console.log('Error:',error);
     }
