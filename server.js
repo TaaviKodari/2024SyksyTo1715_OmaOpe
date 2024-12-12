@@ -18,6 +18,8 @@ const client = new vision.ImageAnnotatorClient({keyFilename:'omaope-vision.json'
 
 let koealueTekstina = '';
 let contex = [];
+let currentQuestion = '';
+let correctAnswer = '';
 
 app.post('/upload-Images',upload.array('images',10), async(req,res)=>{
     const files = req.files;
@@ -55,8 +57,19 @@ app.post('/upload-Images',upload.array('images',10), async(req,res)=>{
         const [question, answer] = responseText.includes('Vastaus') 
         ? responseText.split('Vastaus') : [responseText,null];
         
-    }catch(error){
+        if(!question || !answer){
+            return res.status(400).json({error:'Model could not generate a valid question.'});
+        }
 
+        currentQuestion = question.trim();
+        correctAnswer = answer.trim();
+
+        contex.push({role:'assistant', content:`Kysymys: ${currentQuestion}`});
+        contex.push({role:'assistant', content:`Vastaus: ${correctAnswer}`});
+
+        res.json({question: currentQuestion, answer:correctAnswer});
+    }catch(error){
+        console.log(error);
     }
 
     //console.log(files);

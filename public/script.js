@@ -1,3 +1,6 @@
+let currentQuestion = '';
+let correctAnswer = '';
+
 document.getElementById('send-button').addEventListener('click',sendMessage);
 document.getElementById('send-images-button').addEventListener('click', sendImages);
 document.getElementById('user-input').addEventListener('keypress',function(e){
@@ -30,6 +33,10 @@ document.getElementById('user-input').addEventListener('keypress',function(e){
             method:'POST',
             body:formData
         });
+        const data = await response.json();
+        currentQuestion = data.question;
+        correctAnswer = data.answer;
+        addMessageToChatbox('OmaOpe: ' + currentQuestion,'bot-message', 'omaopebox');
     }catch(error){
         console.log('Error:',error);
     }
@@ -43,7 +50,7 @@ async function sendMessage(){
     if(userInput.trim() === '') return;
     console.log(userInput);
     //lisätään viesti chatboxiin
-    addMessageToChatbox('Sinä: ' + userInput, 'user-message');
+    addMessageToChatbox('Sinä: ' + userInput, 'user-message','chatbox');
  
     try{
         //Tähän tulee POST-rajapinnan pyyntö! Tästä jatketaan
@@ -56,21 +63,21 @@ async function sendMessage(){
         });
         const data = await response.json();
         console.log(data.reply);
-        addMessageToChatbox('ChatGPT: ' + data.reply,'bot-message');
+        addMessageToChatbox('ChatGPT: ' + data.reply,'bot-message','chatbox');
 
     }catch(error){
         console.error('Error:', error);
-        addMessageToChatbox('Jotain meni pieleen. Yritä uudelleen myöhemmin.', 'bot-message');
+        addMessageToChatbox('Jotain meni pieleen. Yritä uudelleen myöhemmin.', 'bot-message','chatbox');
     }
 
     //tyhjennetää tekstikenttä
     document.getElementById('user-input').value = '';
 }
 
-function addMessageToChatbox(message,className){
+function addMessageToChatbox(message,className,box){
     const messageElement = document.createElement('div');
     messageElement.classList.add('message', className);
     messageElement.textContent = message;
-    document.getElementById('chatbox').appendChild(messageElement);
+    document.getElementById(box).appendChild(messageElement);
     console.log(messageElement);
 }
